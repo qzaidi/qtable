@@ -1,0 +1,27 @@
+{
+  "name": "qtable",
+  "version": "0.0.1",
+  "description": "Output for console or htmlview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/qzaidi/qtable.git"
+  },
+  "keywords": [
+    "log",
+    "console",
+    "email",
+    "html"
+  ],
+  "author": "Qasim Zaidi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qzaidi/qtable/issues"
+  },
+  "dependencies": {
+    "cli-table": "~0.3.0"
+  }
+}
