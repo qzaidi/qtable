@@ -11,6 +11,7 @@ var Table = require('../');
 
 /* col widths */
 var table = new Table({ 
+    title: 'Summary Report',
     mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
     head: ['Rel', 'Change', 'By', 'When'],
     colWidths: [6, 21, 25, 17]
@@ -26,6 +27,7 @@ console.log(table.toString());
 
 /* compact */
 var table = new Table({ 
+    mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
     head: ['Rel', 'Change', 'By', 'When']
   , colWidths: [6, 21, 25, 17]
   , style : {compact : true, 'padding-left' : 1}
@@ -54,7 +56,8 @@ vertical_table.push({ "Some Key": "Some Value"},
 console.log(vertical_table.toString());
 
 /* cross */
-var cross_table = new Table({ head: ["", "Header #1", "Header #2"] });
+var cross_table = new Table({ head: ["", "Header #1", "Header #2"] ,
+      mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' } });
 cross_table.push({ "Header #3": ["Value 1", "Value 2"] },
                  { "Header #4": ["Value 3", "Value 4"] });
 console.log(cross_table.toString());

@@ -7,17 +7,20 @@ var util = require('util');
 function QTable(options) {
   if (options && options.mail) {
     this.mail = options.mail;
+    this.title = options.title;
   }
   Table.call(this,options);
 }
 
 util.inherits(QTable,Table);
 
+var mailflag = true;
+
 if (tty.isatty(1) == false) {
   QTable.prototype.toString = function() {
     var options = this.options;
     var str = [];
-    if (this.mail) {
+    if (this.mail && mailflag) {
       str = [ 
         'Subject: ' + this.mail.subject,
         'MIME-Version: 1.0',
@@ -27,6 +30,11 @@ if (tty.isatty(1) == false) {
         'Content-Disposition: inline',
         ''
       ];
+      mailflag= false;
+    }
+
+    if (this.title) {
+      str.push('<h2> ' + this.title + '</h2>');
     }
 
     str.push('<table style="border-width: 1px; border-style: solid;">');
@@ -55,7 +63,7 @@ if (tty.isatty(1) == false) {
       }
       str += '<tr><td>' + x.join('</td><td>') + '</td></tr>\n';
     });
-    return str + '</table>';
+    return str + '</table><br/>';
   };
 }
 
