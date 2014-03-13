@@ -57,7 +57,23 @@ console.log(vertical_table.toString());
 
 /* cross */
 var cross_table = new Table({ head: ["", "Header #1", "Header #2"] ,
+      title: 'Cross Table',
       mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' } });
 cross_table.push({ "Header #3": ["Value 1", "Value 2"] },
                  { "Header #4": ["Value 3", "Value 4"] });
 console.log(cross_table.toString());
+
+var ctable = new Table({
+  title: 'Percentage Table',
+  mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
+  percentwidth: true,
+  head: ['Merchant', 'Unauth', 'Pending ack', 'Pending Ship', 'Delivered', 'Refunded'],
+  colWidths: [15, 20, 20, 20]
+});
+
+ctable.push(
+    ['Deals',  497, 0, 20, 212, 101 ],
+    ['Topups', 3000, 200 , 1800, 900, 20 ]
+);
+
+console.log(ctable.toString());
