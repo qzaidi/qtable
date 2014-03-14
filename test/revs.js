@@ -68,11 +68,10 @@ var ctable = new Table({
   mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
   percentwidth: true,
   head: ['Merchant', 'Unauth', 'Pending ack', 'Pending Ship', 'Delivered', 'Refunded'],
-  colWidths: [15, 20, 20, 20]
 });
 
 ctable.push(
-    ['Deals',  497, 0, 20, 212, 101 ],
+    ['Deals',  '497(20)', '0 (11)', 20, 212, 101 ],
     ['Topups', 3000, 200 , 1800, 900, 20 ]
 );
 

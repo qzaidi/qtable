@@ -1,6 +1,6 @@
 {
   "name": "qtable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Output for console or htmlview",
   "main": "index.js",
   "scripts": {

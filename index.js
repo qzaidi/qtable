@@ -50,7 +50,7 @@ if (tty.isatty(1) == false) {
     if (options.head && options.head.length) {
       str += [
         '<thead>',
-        '<th style="padding:10px;">',
+        '<th style="padding:10px;" width="10%">',
         options.head.join('</th><th style="padding:10px;background-color:#eeeeee;">'),
         '</th>',
         '</thead>'
@@ -73,7 +73,7 @@ if (tty.isatty(1) == false) {
       }
       
       if (options.percentwidth) {
-        sum = x.reduce(function(a,b) { return a+b; });
+        sum = x.reduce(function(a,b) { return parseInt(a,10) +parseInt(b,10); });
         v = x.map(function(k) { return (k*90/sum)|0; });
         str += '</table><table width="100%" cellspacing="1" cellpadding="0">';
       }
