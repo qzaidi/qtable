@@ -64,15 +64,32 @@ cross_table.push({ "Header #3": ["Value 1", "Value 2"] },
 console.log(cross_table.toString());
 
 var ctable = new Table({
-  title: 'Percentage Table',
+  title: 'Stacked Table',
   mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
-  percentwidth: true,
+  stacked: true,
   head: ['Merchant', 'Unauth', 'Pending ack', 'Pending Ship', 'Delivered', 'Refunded'],
+  columns: [ '15' ]
 });
 
 ctable.push(
     ['Deals',  '497(20)', '0 (11)', 20, 212, 101 ],
     ['Topups', 3000, 200 , 1800, 900, 20 ]
+);
+
+console.log(ctable.toString());
+
+var ctable = new Table({
+  title: 'Bar Table',
+  bar: true,
+  head: ['Month', 'Contribution' ],
+  columns: [ '10' ],
+  count: 8000
+});
+
+ctable.push(
+    ['Jan',  '497(20)' ],
+    ['Feb', 3000 ],
+    ['Mar', 1000 ]
 );
 
 console.log(ctable.toString());
