@@ -22,3 +22,5 @@ e.g.
 ```bash
  $ node revs.js | sendmail -f 'test@example.com' 'recipient@example.com' 
 ```
+
+See [sample html output](https://github.com/qzaidi/qtable/blob/master/test/index.html]
