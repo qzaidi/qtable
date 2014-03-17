@@ -23,4 +23,6 @@ e.g.
  $ node revs.js | sendmail -f 'test@example.com' 'recipient@example.com' 
 ```
 
-See [sample html output](https://github.com/qzaidi/qtable/blob/master/test/index.html]
+## Examples
+
+[sample html output](https://raw.github.com/qzaidi/qtable/master/test/index.html)
