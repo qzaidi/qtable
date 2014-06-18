@@ -8,6 +8,7 @@ function QTable(options) {
   if (options) {
     this.mail = options.mail;
     this.title = options.title;
+    this.attachment = options.attachment;
   }
   Table.call(this,options);
 }
@@ -21,17 +22,18 @@ function getbgcolor(idx) {
 util.inherits(QTable,Table);
 
 var mailflag = true;
+var currDate = Date.now();
 
 if (tty.isatty(1) == false) {
   QTable.prototype.toString = function() {
-    var currDate = Date.now();
-    var header = [], superHeader = [], boundary = "\n--" + currDate + "\n";
+    var header = [], boundary = "\n--" + currDate + "\n";
 
     var options = this.options;
     var str = [];
     var colsum = options.count;
     var length = this.length;
     var wfirst,sum;
+    var csv = "\n\n";
 
     if (this.mail && mailflag) {
       header = [
@@ -40,8 +42,8 @@ if (tty.isatty(1) == false) {
         'From: ' + this.mail.from,
         'To:' + this.mail.to,
         'Content-Type: multipart/mixed; boundary="'+currDate+'"',
-        ''
-      ];
+        '\n',
+     ];
       mailflag= false;
     }
 
@@ -51,6 +53,10 @@ if (tty.isatty(1) == false) {
       sum = options.cols.reduce(function(a,b) { return a+b; });
       options.cols = options.cols.map(function(c) { return ((c*100)/sum)|0; });
     }
+
+    str.push('Content-type: text/html; charset=iso-8859-1');
+    str.push('Content-Transfer-Encoding: quoted-printable');
+    str.push('\n');
 
     str.push('<table cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid;">');
 
@@ -83,7 +89,8 @@ if (tty.isatty(1) == false) {
         }
         x = [v];
       } else {
-        k = x[0] || '';
+        x = x.slice(0,x.length); // make a copy of original before modifying
+        k = x.shift() || '';
       }
 
       if (options.stacked) {
@@ -107,8 +114,7 @@ if (tty.isatty(1) == false) {
                   width = 'width="' + width + '%"';
                   color = 'color:#ffffff;background-color:' + getbgcolor(idx) +';';
                 }
-                if(idx != 0)
-                	return '<td ' + width + ' style="padding:10px;' + color + '">' + k + '</td>';
+                return '<td ' + width + ' style="padding:10px;' + color + '">' + k + '</td>';
               }).join('');
 
 
@@ -122,34 +128,33 @@ if (tty.isatty(1) == false) {
         str += '</table>';
       }
     });
-    var csv = "\n\n";
-      if(this.mail.attachment){
-       str += boundary;
-       str += [
+
+    str = header.join('\n') + boundary + str ;
+
+    if(this.attachment) {
+      csv += [
         'Content-Type: text/csv; name='+ currDate +'.csv',
         'Content-Disposition: attachment; filename='+ currDate +'.csv',
-      ].join('\n');
-      if (options.head && options.head.length) {
-        csv += [
+        ].join('\n');
+        if (options.head && options.head.length) {
+          csv += [
             options.head.join(','),
-          ].join('\n');
-      }
-      csv += '\n';
-      this.forEach(function(x) {
-        // x is a row of the table, k is the first element
-        var k,v,sum;
-
-        csv += x.map(function(k) {
-                  return k;
-                }).join(',');
+            ].join('\n');
+        }
         csv += '\n';
-      });
-      }
-      var subHeader = 'Content-Type: text/html\n\n';
-      header = header.join('\n') ;
-      str = header + boundary + subHeader + str;
-      str += csv  + boundary;
-      return str;
+        this.forEach(function(x) {
+          // x is a row of the table, k is the first element
+          var k,v,sum;
+
+          csv += x.map(function(k) {
+            return k;
+          }).join(',');
+          csv += '\n';
+        });
+      str += boundary + csv + boundary;
+    }
+    
+    return str;
   };
 }
 

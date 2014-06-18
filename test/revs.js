@@ -93,3 +93,22 @@ ctable.push(
 );
 
 console.log(ctable.toString());
+
+// bar table with attachment
+var ctable = new Table({
+  mail: { to: 'qasim@zaidi.me', 'subject': 'Revision Report', from: 'qasim@zaidi.me' },
+  title: 'Bar Table with attachment',
+  bar: true,
+  attachment: true,
+  head: ['Month', 'Contribution' ],
+  columns: [ '10' ],
+  count: 8000
+});
+
+ctable.push(
+    ['Jan',  '497(20)' ],
+    ['Feb', 3000 ],
+    ['Mar', 1000 ]
+);
+
+console.log(ctable.toString());
