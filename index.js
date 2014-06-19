@@ -3,14 +3,21 @@
 var tty = require('tty');
 var Table = require('cli-table');
 var util = require('util');
+var onlyhtmlflag;
 
 function QTable(options) {
   if (options) {
     this.mail = options.mail;
     this.title = options.title;
     this.attachment = options.attachment;
+    this.nobody = options.nobody;
+    if(!onlyhtmlflag)
+      onlyhtmlflag = options.onlyhtml;
   }
   Table.call(this,options);
+  if(onlyhtmlflag){
+    QTable.prototype.toString = process;
+  }
 }
 
 function getbgcolor(idx) {
@@ -25,7 +32,10 @@ var mailflag = true;
 var currDate = Date.now();
 
 if (tty.isatty(1) == false) {
-  QTable.prototype.toString = function() {
+  QTable.prototype.toString = process;
+}
+function process(){
+
     var header = [], boundary = "\n--" + currDate + "\n";
 
     var options = this.options;
@@ -33,7 +43,7 @@ if (tty.isatty(1) == false) {
     var colsum = options.count;
     var length = this.length;
     var wfirst,sum;
-    var csv = "\n\n";
+    var csv = "";
 
     if (this.mail && mailflag) {
       header = [
@@ -54,15 +64,17 @@ if (tty.isatty(1) == false) {
       options.cols = options.cols.map(function(c) { return ((c*100)/sum)|0; });
     }
 
+    if (this.title) {
+      str.push('<h3>' + this.title + '</h3>');
+    }
+    if(!onlyhtmlflag){
     str.push('Content-type: text/html; charset=iso-8859-1');
     str.push('Content-Transfer-Encoding: quoted-printable');
     str.push('\n');
-
+    }
+    if(!this.nobody){
     str.push('<table cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid;">');
 
-    if (this.title) {
-      str.push('<caption> ' + this.title + '</caption>');
-    }
     wfirst = options.cols?(options.cols[0]|0):15;
 
     str = str.join('\n');
@@ -128,14 +140,19 @@ if (tty.isatty(1) == false) {
         str += '</table>';
       }
     });
-
-    str = header.join('\n') + boundary + str ;
+    }
+    if(!onlyhtmlflag){
+      str = header.join('\n') + boundary + str ;
+    }
 
     if(this.attachment) {
+      if(!onlyhtmlflag){
       csv += [
         'Content-Type: text/csv; name='+ currDate +'.csv',
         'Content-Disposition: attachment; filename='+ currDate +'.csv',
+        '\n'
         ].join('\n');
+      }
         if (options.head && options.head.length) {
           csv += [
             options.head.join(','),
@@ -151,12 +168,15 @@ if (tty.isatty(1) == false) {
           }).join(',');
           csv += '\n';
         });
-      str += boundary + csv + boundary;
+      if(onlyhtmlflag){
+        str += csv;
+      } else {
+        str += boundary + csv + boundary;
+      }
     }
     
     return str;
-  };
+  
 }
-
 module.exports = QTable;
 
