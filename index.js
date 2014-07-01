@@ -33,7 +33,7 @@ if (tty.isatty(1) == false) {
     var colsum = options.count;
     var length = this.length;
     var wfirst,sum;
-    var csv = "\n\n";
+    var csv = "";
 
     if (this.mail && mailflag) {
       header = [
@@ -135,6 +135,7 @@ if (tty.isatty(1) == false) {
       csv += [
         'Content-Type: text/csv; name='+ currDate +'.csv',
         'Content-Disposition: attachment; filename='+ currDate +'.csv',
+        '\n'
         ].join('\n');
         if (options.head && options.head.length) {
           csv += [
@@ -153,10 +154,9 @@ if (tty.isatty(1) == false) {
         });
       str += boundary + csv + boundary;
     }
-    
+
     return str;
   };
 }
 
 module.exports = QTable;
-
