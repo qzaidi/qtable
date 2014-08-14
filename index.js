@@ -63,7 +63,7 @@ if (tty.isatty(1) == false) {
     if (this.title) {
       str.push('<caption> ' + this.title + '</caption>');
     }
-    wfirst = options.cols?(options.cols[0]|0):15;
+    wfirst = options.cols?(options.cols[0]|0):10;
 
     str = str.join('\n');
 
@@ -94,11 +94,11 @@ if (tty.isatty(1) == false) {
       }
 
       if (options.stacked) {
-        sum = x.reduce(function(a,b) { return parseInt(a,10) +parseInt(b,10); },0);
-        v = x.map(function(k) { return (parseInt(k,10)*(100-wtotal)/sum)|0; });
+        sum = x.reduce(function(a,b) {if(!a){a=0;};if(!b){b=0;}; return parseInt(a,10) +parseInt(b,10); },0);
+        v = x.map(function(k) {if(!k){k=0;} return (parseInt(k,10)*(100-wtotal)/sum)|0; });
         str += '</table><table style="table-layout:fixed;" width="100%" cellspacing="1" cellpadding="0">';
       } else if (options.bar) {
-        v = x.map(function(k) { var x = ((parseInt(k,10)*(100-wtotal))/colsum)|0; return x; });
+        v = x.map(function(k) {if(!k){k=0;} var x = ((parseInt(k,10)*(100-wtotal))/colsum)|0; return x; });
         str += '</table><table width="100%" cellspacing="1" cellpadding="0" style="font-size:.8em;">';
       }
 
