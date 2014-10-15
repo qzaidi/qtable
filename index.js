@@ -154,10 +154,9 @@ if (tty.isatty(1) == false) {
         });
       str += boundary + csv + boundary;
     }
-    
+
     return str;
   };
 }
 
 module.exports = QTable;
-
